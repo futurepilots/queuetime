@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'firebase_options.dart'; // hier sind deine Firebase Keys drin
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -282,6 +282,7 @@ class _HomeScreenContentState extends State<HomeScreenContent>
   }
 }
 
+// Fertige MapScreen mit flutter_map 4.x Syntax
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
 
@@ -352,12 +353,14 @@ class _MapScreenState extends State<MapScreen> {
               center: bounds.center,
               zoom: 6.0,
             ),
-            layers: [
-              TileLayerOptions(
+            children: [
+              TileLayer(
                 urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: ['a', 'b', 'c'],
+                subdomains: const ['a', 'b', 'c'],
               ),
-              MarkerLayerOptions(markers: markers),
+              MarkerLayer(
+                markers: markers,
+              ),
             ],
           );
         },
