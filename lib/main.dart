@@ -282,7 +282,6 @@ class _HomeScreenContentState extends State<HomeScreenContent>
   }
 }
 
-// Fertige MapScreen mit flutter_map 4.x Syntax
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
 
@@ -315,42 +314,19 @@ class _MapScreenState extends State<MapScreen> {
             final data = doc.data() as Map<String, dynamic>;
             final waitTime = data['wait_time_minutes'] ?? 0;
             return Marker(
-              width: 80.0,
-              height: 80.0,
               point: LatLng(data['latitude'], data['longitude']),
-              builder: (ctx) => TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0.0, end: 1.0),
-                duration: const Duration(milliseconds: 600),
-                curve: Curves.elasticOut,
-                builder: (context, value, child) {
-                  return Transform.scale(
-                    scale: value,
-                    child: Icon(Icons.location_on, color: _getMarkerColor(waitTime), size: 40),
-                  );
-                },
-              ),
+              width: 40,
+              height: 40,
+              builder: (ctx) => Icon(Icons.location_on, color: _getMarkerColor(waitTime), size: 40),
             );
           }).toList();
-
-          // Bounds berechnen
-          double? minLat, maxLat, minLng, maxLng;
-          for (var m in markers) {
-            if (minLat == null || m.point.latitude < minLat) minLat = m.point.latitude;
-            if (maxLat == null || m.point.latitude > maxLat) maxLat = m.point.latitude;
-            if (minLng == null || m.point.longitude < minLng) minLng = m.point.longitude;
-            if (maxLng == null || m.point.longitude > maxLng) maxLng = m.point.longitude;
-          }
-          final bounds = LatLngBounds(LatLng(minLat!, minLng!), LatLng(maxLat!, maxLng!));
-
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _mapController.fitBounds(bounds,
-                options: const FitBoundsOptions(padding: EdgeInsets.all(50)));
-          });
 
           return FlutterMap(
             mapController: _mapController,
             options: MapOptions(
-              center: bounds.center,
+              center: markers.isNotEmpty
+                  ? markers[0].point
+                  : LatLng(0, 0),
               zoom: 6.0,
             ),
             children: [

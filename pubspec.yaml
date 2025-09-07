@@ -20,8 +20,8 @@ dependencies:
   geolocator: ^14.0.2
   provider: ^6.1.2
 
-  # Flutter Map (aktuelle Version)
-  flutter_map: ^5.0.0
+  # Maps (flutter_map + latlong2)
+  flutter_map: ^4.3.0
   latlong2: ^0.9.4
 
 dev_dependencies:
