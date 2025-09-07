@@ -16,11 +16,13 @@ dependencies:
 
   # Andere Pakete
   shared_preferences: ^2.2.2
-  google_maps_flutter: ^2.6.1
-  geolocator: ^10.1.0
+  google_maps_flutter: ^2.12.3
+  geolocator: ^14.0.2
   provider: ^6.1.2
-  flutter_map: ^4.2.0
-  latlong2: any
+
+  # Flutter Map (aktuelle Version)
+  flutter_map: ^5.0.0
+  latlong2: ^0.9.4
 
 dev_dependencies:
   flutter_test:
