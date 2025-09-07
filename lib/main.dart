@@ -125,7 +125,6 @@ class _HomeScreenContentState extends State<HomeScreenContent>
   Future<void> _getAndSaveQueueTime() async {
     try {
       _buttonAnimationController.forward().then((_) => _buttonAnimationController.reverse());
-
       setState(() => isLoading = true);
 
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -150,7 +149,6 @@ class _HomeScreenContentState extends State<HomeScreenContent>
       }
 
       Position pos = await Geolocator.getCurrentPosition();
-
       int waitMinutes = int.tryParse(_waitTimeController.text) ?? 15;
 
       await FirebaseFirestore.instance.collection('queue_times').add({
@@ -315,28 +313,43 @@ class _MapScreenState extends State<MapScreen> {
             final waitTime = data['wait_time_minutes'] ?? 0;
             return Marker(
               point: LatLng(data['latitude'], data['longitude']),
-              width: 40,
-              height: 40,
-              builder: (ctx) => Icon(Icons.location_on, color: _getMarkerColor(waitTime), size: 40),
+              width: 80,
+              height: 80,
+              builder: (ctx) => TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.elasticOut,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: value,
+                    child: Icon(
+                      Icons.location_on,
+                      color: _getMarkerColor(waitTime),
+                      size: 40,
+                    ),
+                  );
+                },
+              ),
             );
           }).toList();
+
+          final bounds = LatLngBounds.fromPoints(markers.map((m) => m.point).toList());
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _mapController.fitBounds(bounds, options: const FitBoundsOptions(padding: EdgeInsets.all(50)));
+          });
 
           return FlutterMap(
             mapController: _mapController,
             options: MapOptions(
-              center: markers.isNotEmpty
-                  ? markers[0].point
-                  : LatLng(0, 0),
-              zoom: 6.0,
+              center: bounds.center,
+              zoom: 6,
             ),
             children: [
               TileLayer(
-                urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 subdomains: const ['a', 'b', 'c'],
               ),
-              MarkerLayer(
-                markers: markers,
-              ),
+              MarkerLayer(markers: markers),
             ],
           );
         },
