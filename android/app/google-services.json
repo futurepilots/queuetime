@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "167044979864",
+    "project_id": "queuetime-app",
+    "storage_bucket": "queuetime-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167044979864:android:c731edf05ef6fc222584ed",
+        "android_client_info": {
+          "package_name": "com.example.queuetime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167044979864-iaj8b8l0vbnjcro1hseflmo5trsc15j2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsyrROd-2gwKnIP5ZkWDn9zBUgf9MUZPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167044979864-iaj8b8l0vbnjcro1hseflmo5trsc15j2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
